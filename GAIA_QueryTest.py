@@ -5,7 +5,7 @@ from astroquery.gaia import Gaia
 import warnings
 warnings.filterwarnings("ignore", module='astropy.io.votable.tree')
 
-job = Gaia.launch_job_async("select top 100 * from gaiadr1.gaia_source order by source_id", dump_to_file=True)
+job = Gaia.launch_job_async("select top 100 * from gaiadr1.gaia_source order by source_id",output_format="csv", dump_to_file=True)
 
 print(job)
 
