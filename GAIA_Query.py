@@ -19,16 +19,22 @@ image_y_extent  = 10
 image_x_extent  = 15
 
 # query stringbuilding
-query = {   
-    f"SELECT ra, dec, phot_g_mean_mag, r_est, teff_val, designation"
-    f"FROM external.gaiadr2_geometric_distance"
-    f"JOIN gaiadr2.gaia_source USING (source_id)"
-    f"WHERE CONTAINS (POINT('ICRS', ra, dec), BOX('ICRS', image_ctr_ra, image_ctr_dec, {image_x_extent} * 3600, {image_y_extent} * 3600)) = 1"
-    f"AND phot_g_mean_mag < {mag_ub}"
+query = (  
+    f"SELECT ra, dec, phot_g_mean_mag, r_est, teff_val, designation "
+    f"FROM external.gaiadr2_geometric_distance "
+    f"JOIN gaiadr2.gaia_source USING (source_id) "
+    f"WHERE CONTAINS (POINT('ICRS', ra, dec), BOX('ICRS', image_ctr_ra, image_ctr_dec, {image_x_extent} * 3600, {image_y_extent} * 3600)) = 1 "
+    f"AND phot_g_mean_mag < {mag_ub} "
     f"AND teff_vel > 0"
-}
+)
 
-test_query = "select top 100 * from gaiadr1.gaia_source order by source_id"
+test_query = (
+    f"select top 100 * "
+    f"from gaiadr1.gaia_source order by source_id"
+)
+
+
+# TODO order by mag
 
 # Gaia final query - 
 # SELECT ra, dec, phot_g_mean_mag, r_est, teff_val, designation \
@@ -45,7 +51,7 @@ test_query = "select top 100 * from gaiadr1.gaia_source order by source_id"
 # USING (source_id) \
 # WHERE phot_g_mean_mag > 16.95 AND phot_g_mean_mag < 17 AND teff_val > 0
 
-# launch async job, file dump as .csv
+# launch async job, file dump as .csv 
 job = Gaia.launch_job_async(query, output_format="csv", dump_to_file=True)
 
 print(job)
