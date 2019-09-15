@@ -49,4 +49,4 @@ print(job)
 # dec             - declination, ircs, degrees
 # phot_g_mean_mag - mean magnitude in G band, float
 # teff_val        - stellar effective temperature, float, K
-# r_est           - estimated distance, parsec, from extenral.gaiadr2_geometric_distance
+# r_est           - estimated distance, parsec, from external.gaiadr2_geometric_distance
