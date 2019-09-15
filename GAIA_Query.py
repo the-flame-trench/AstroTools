@@ -15,17 +15,17 @@ image_ctr_dec    = -60.0
 
 # image fov calculations - compare against platesolved data?
 # image extents expressed as image size in a given axis in arcseconds
-image_y_extent  = 10
-image_x_extent  = 15
+image_y_extent  = 100
+image_x_extent  = 150
 
 # query stringbuilding
 query = (  
-    f"SELECT ra, dec, phot_g_mean_mag, r_est, teff_val, designation "
+    f"SELECT TOP 100 ra, dec, phot_g_mean_mag, r_est, teff_val, designation "
     f"FROM external.gaiadr2_geometric_distance "
     f"JOIN gaiadr2.gaia_source USING (source_id) "
-    f"WHERE CONTAINS (POINT('ICRS', ra, dec), BOX('ICRS', image_ctr_ra, image_ctr_dec, {image_x_extent} * 3600, {image_y_extent} * 3600)) = 1 "
+    f"WHERE CONTAINS(POINT('ICRS', ra, dec), BOX('ICRS', {image_ctr_ra}, {image_ctr_dec}, {image_x_extent * 3600}, {image_y_extent * 3600})) = 1 "
     f"AND phot_g_mean_mag < {mag_ub} "
-    f"AND teff_vel > 0"
+    f"AND teff_val > 0"
 )
 
 test_query = (
