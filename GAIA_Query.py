@@ -1,6 +1,7 @@
 import astropy.units as u
 from astropy.coordinates import SkyCoord
 from astroquery.gaia import Gaia
+import math as m
 
 import warnings
 warnings.filterwarnings("ignore", module='astropy.io.votable.tree')
@@ -12,6 +13,11 @@ mag_ub = 20.0                                       # magnitude upper bound for 
 # TODO use SkyCoord
 image_ctr_ra     = 200.0
 image_ctr_dec    = -60.0
+
+# telescope/obs stats
+ts_f_len = 1000                     # focal length in mm
+cam_sense_x = 22.3                  # camera sensor x dimension, mm
+cam_sense_y = 14.9                  # camera sensor y dimension, mm
 
 # image fov calculations - compare against platesolved data?
 # image extents expressed as image size in a given axis in arcseconds
@@ -38,6 +44,16 @@ test_query = (
 job = Gaia.launch_job_async(query, output_format="csv", dump_to_file=True)
 
 print(job)
+
+# *** function defintions ***
+
+# this function calculated angular field of view at the camera
+# param: - focal_len : telescope's focal length, mm
+#        - sensor_d  : single dimension of the sensor, mm
+# returns: angular field of view, arcseconds
+def calc_FOV(focal_len, sensor_d):
+    a = 2 * m.degrees(m.atan(sensor_d/(2 * focal_len))) * u.deg    # gets angular fov in degrees
+    return a.to(u.arcsec).value
 
 # ------------------------------------------------------------------------------------------
 
