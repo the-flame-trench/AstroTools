@@ -7,7 +7,7 @@ import warnings
 warnings.filterwarnings("ignore", module='astropy.io.votable.tree')
 warnings.filterwarnings("ignore", module='astropy.extern.six')
 
-# *** function defintions ***
+# *** function definitions ***
 
 # this function calculated angular field of view at the camera
 # param: - focal_len : telescope's focal length, mm
