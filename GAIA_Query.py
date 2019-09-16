@@ -5,6 +5,7 @@ import math as m
 
 import warnings
 warnings.filterwarnings("ignore", module='astropy.io.votable.tree')
+warnings.filterwarnings("ignore", module='astropy.extern.six')
 
 # *** function defintions ***
 
@@ -31,14 +32,8 @@ cam_sense_y = 14.7                  # camera sensor y dimension, mm
 
 # image fov calculations - compare against platesolved data?
 # image extents expressed as image size in a given axis in arcseconds
-image_y_extent  = 3060
-image_x_extent  = 4572
-
-image_x_test = calc_FOV(ts_f_len, cam_sense_x)
-image_y_test = calc_FOV(ts_f_len, cam_sense_y)
-
-print(image_x_test)
-print(image_y_test)
+image_x_extent = calc_FOV(ts_f_len, cam_sense_x)
+image_y_extent = calc_FOV(ts_f_len, cam_sense_y)
 
 # query stringbuilding
 query = (  
@@ -49,11 +44,6 @@ query = (
     f"AND phot_g_mean_mag < {mag_ub} "
     # f"AND teff_val > 0 "
     f"ORDER BY phot_g_mean_mag DESC"
-)
-
-test_query = (
-    f"select top 100 * "
-    f"from gaiadr1.gaia_source order by source_id"
 )
 
 # launch async job, file dump as .csv 
